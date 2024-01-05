@@ -1,0 +1,26 @@
+---
+- name: Clean up var log directory
+  hosts: localhost
+  vars:
+
+  tasks:
+  - name: find files
+    find:
+      paths: "/var/log"
+      patterns:
+        - '^.*-[0-9]+$'
+      use_regex: yes
+      recurse: yes
+    register: found_files
+
+  - name: debug found log files
+    ansible.builtin.debug:
+      var: found_files
+      verbosity: 2
+
+  - name: Delete found log file
+    ansible.builtin.file:
+      state: absent
+      path: "{{ item.path }}" 
+    loop: "{{ found_files.files }}"
+

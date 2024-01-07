@@ -1,6 +1,7 @@
 ---
 - name: Clean up var log directory
-  hosts: localhost
+  hosts: "{{ _hosts }}"
+  become: true
   vars:
 
   tasks:
